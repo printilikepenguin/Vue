@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h1>{{title}}</h1>
+    <p>평균 점수 : {{avgScore}}</p>
+    <button @click="cal_average">평균 점수 계산</button>
+    <hr>
+    <p>전체 점수 목록 : {{scores}}</p>
+    <p>방학 여부 : {{is_vacation.status}}</p>
+    <!-- <p>방학 여부 : {{ isVacation.status ? '방학 중' : '수업 중' }}</p> -->
+  </div>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const {createApp, ref} = Vue
+    const newapp = createApp({
+      setup() {
+        const title = ref('점수표')
+        const avgScore = ref(null)
+        const scores = ref([39,93,82,84,84,12,39])
+        const is_vacation = ref({status: false})
+ 
+        const cal_average = function () {
+          const sum_v = scores.value.reduce(
+            (acc, score) => acc + score, 0
+          )
+          avgScore.value = sum_v / scores.value.length
+        }
+
+        return { title, avgScore, scores, is_vacation, cal_average}
+
+      }
+    })
+    newapp.mount('#app')
+
+  </script>
+</body>
+</html>

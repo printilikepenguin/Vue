@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h1>발표 순서 정하기</h1>
+    <hr>
+    <p>전체 학생 목록 : {{ students.join(', ') }}</p>
+    <button @click="shuffle">섞기</button>
+    <p>1st : {{ students[0] }}</p>
+    <p>2nd : {{ students[1] }}</p>
+    <p>3rd : {{ students[2] }}</p>
+    <p>last : {{ students[students.length - 1] }}</p>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+    const newapp = createApp({
+      setup() {
+        const students = ref(['홍길동', '이춘향', '금나래', '장보고', '임꺽정', '강감찬'])
+
+        const shuffle = () => {
+          students.value = _.shuffle(students.value);
+        }
+
+        return { students, shuffle }
+      }
+    })
+
+    newapp.mount('#app')
+  </script>
+</body>
+</html>
