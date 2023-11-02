@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+      color: saddlebrown;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>할 일 목록</h1>
+    <div>
+      <input type="text" v-model="newTodo">
+      <button @click="addTodo">추가</button>
+      <!-- todos 목록 나열 -->
+      <ul>
+        <!-- JavaScript 의 버블링 유의! -->
+        <!-- vue는 렌더링 시 '변경된 부분만' 최소한으로 재렌더링 -->
+        <!-- 즉, 내가 당장 필요없는 부분은 신경쓰지 않는다 -->
+        <!-- 3번째 todo를 삭제한다 가정하면, delTodo(현재기준 인덱스 3), 토글(인덱스3, 사실 4) -->
+        <!-- 내부적으로 효율적인 구조로 인해 신경써야할 부분 多 -->
+        <li v-for="(todo, index) in todos" :key="todo.id" @click="toggleTodoStatus(todo)" :class="{'completed' : todo.completed}">
+          {{ todo.text }}
+          <button @click="delTodo(index)">삭제</button>
+        </li>
+      </ul>
+      <!-- 1. 함수로 호출법 -->
+      <!-- <button v-if="todos.value.filter((todo) => todo.completed).length > 0" @click="delAllcompleted">완료된 할 일 삭제</button> -->
+      
+      <!-- 자스 코드는 되도록 template쪽에 쓰지마라, 최대한 computed -->
+      <!-- v-if: 요소 자체가 아예 안보임/ 자주변경되면 비효율적 -->
+      <button v-if="todoCounts" @click="delAllcompleted">완료된 할 일 삭제</button>
+      <!-- v-show: display None상태로 DOM에는 존재/ 안보이는일이 많으면 비효율적 -->
+      <!-- <button v-show="todoCounts" @click="delAllcompleted">완료된 할 일 삭제</button> -->
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref, computed } = Vue
+    const newapp = createApp({
+      // setup(): 앱이 생성될 때 호출되는 메서드
+      setup() {
+        // 할 일 목록
+        const todos = ref([])
+        // 사용자의 입력을 받을 변수
+        const newTodo = ref('')
+        // 새로운 할 일을 추가하는 메서드
+        let todoId = 1;
+        const addTodo = () => {
+          // todos 배열 안에 newTodo를 추가해주면 됨
+          // 해결되고 실선 효과를 위해...
+          // 공백은 추가 X 조건 달아주기
+          if (newTodo.value.trim() !== '') {
+            tmp = {
+              id: todoId++,
+              text: newTodo.value,
+              completed: false
+            }
+            todos.value.push(tmp)
+            newTodo.value = ''  // 입력필드 초기화
+          }
+        }
+        const delTodo = (index) => {
+          todos.value.splice(index, 1)
+        } 
+        const toggleTodoStatus = (todo) => {
+          todo.completed = !todo.completed
+        }
+        const delAllcompleted = () => {
+          // todo.complted가 true인것만 삭제 == false인 것만 배열에 남기기
+          todos.value = todos.value.filter((todo) => {
+            return !todo.completed
+            // return todo.completed === false
+            // todos.value.filter((todo) => todo.completed)
+          })
+        }
+        // computed 계산된 속성: 기존 변수 수정X 계산값으로 새 변수 만들고싶을 때 사용
+        const todoCounts = computed(() => {
+          return todos.value.filter((todo) => todo.completed).length > 0
+        })
+
+        return{todos, newTodo, addTodo, delTodo, toggleTodoStatus, delAllcompleted, todoCounts}
+      }
+    })
+    newapp.mount('#app')
+  </script>
+</body>
+</html>
