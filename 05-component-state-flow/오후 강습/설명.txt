@@ -1,0 +1,82 @@
+재밌어보이는 슬프면 고양이 부르는 함수
+https://healeycodes.com/when-im-sad-my-computer-sends-me-a-cat
+
+javascript의 axios... map... 확인
+
+순서: 만든다 지운다 App.vue 설정 간다
+
+vue도 index.html부터 시작이다
+중간 만드는 법 : margin 0 auto;
+
+npm install axios
+
+axios.get은 비동기
+근데 가져오기전에 forEach가 끝나면...?
+detail이 없는 상태로 우리 눈에 출력
+async, await 눈에 익혀두세용
+
+const getDogData = () => {
+  const URL = 'https://api.thedogapi.com/v1/images/search?limit=10'
+  axios.get(URL)
+    .then((response) => {
+      // dogs.value = response.data
+
+      // 10마리 강아지 데이터
+      const dogData = response.data
+      
+      dogData.forEach((dog) => {
+        const detailURL = `https://api.thedogapi.com/v1/images/${dog.id}`
+        axios.get(detailURL)
+        .then((response) => {
+          // console.log('detail = ', response.data)
+          dog.detail = response.data
+        }).catch((error) => {
+          console.error(error)
+        })
+      })
+
+      dogs.value = dogData
+      console.log(dogs.value)
+      
+
+    }).catch((error) => {
+      console.error(error);
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+  <header>
+    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+
+    <div class="wrapper">
+      <HelloWorld msg="You did it!" />
+    </div>
+  </header>
+
+  <main>
+    <TheWelcome />
+  </main>
+
+전체 강아지 사진 요청: https://api.thedogapi.com/v1/images/search
+개수 강아지 사진 요청: https://api.thedogapi.com/v1/images/search?limit=10
+- 10개까지 문제 없음
+상세 강아지 데이터 요청 : `https://api.thedogapi.com/v1/images/${dog.id}\`
