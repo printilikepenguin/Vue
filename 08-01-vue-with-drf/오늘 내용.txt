@@ -1,0 +1,45 @@
+구조파악 필수!
+터미널은 두 개 동시활용
+
+아티클리스트아이템을 하나하나 반복하면서 ...
+
+카운터js
+
+권한
+유저
+
+뷰 숙지
+    <ArticleListItem 
+      v-for="article in store.articles"
+      :key="article.id"
+      :article="article"
+      />
+
+getArticles.는 우리가 불러야 나오는게 아니라 계속 실행되어야함 ...
+마운티드 컴포넌트를 함 생각해보길 ..
+라이프 스타일 훅...........
+
+AxiosError {message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK', config: {…}, request: XMLHttpRequest, …} 에러다.ㅏ
+서버는 응답했으나 브라우저 측에서 거절
+
+SOP Same-origin policy
+외부출처데이터는 블락시켜 공격받을 수 있는 경로를 줄임
+
+CORS 특정 출처(Origin)에서 실행중인 웹 애플리케이션이 다른 출처의 자원에 접근할 수 있는 권한을 부여하도록 브라우저에 알려주는 시간
+
+다른 출처 리소스를 불러오려면 그 출처에서 올바른 
+
+settings.py에서 corsheaders
+MiddleWaRE, CORSaLLOWED 신규작성
+
+개발을 같이하고 싶을 땐 IP서버 켜놓고 같이 진행]
+axios 요청을 저기로 .. 보내면 됨
+
+순서
+1. 장고 프로젝트 시작
+- 필요모듈 다운 후 앱 설치, settings.py 확인
+- 각 url 정리
+- 각 앱 별 모델, 시리얼라이저, 뷰 정리
+- 
+
+2. 뷰프로젝트 시작
